@@ -7,11 +7,22 @@ import { TasksService } from './tasks.service';
 import { Task } from './task.entity';
 import { TaskRepository } from './task.repository';
 import { TaskStatus } from './task-status.enum';
+import { BotService } from 'src/bot/bot.service';
+
+
+
 
 @Controller('tasks')
 export class TasksController {
-    constructor(private tasksService: TasksService){}
+    constructor(
+        private tasksService: TasksService,
+        private botService: BotService
+        ){}
 
+    @Get()
+    getBotDialog() {
+        this.botService.botMessage();
+    }
     @Get()
     getTask(@Query(ValidationPipe) filterDto: GetTasksFilterDto){
          return this.tasksService.getTasks(filterDto);    
