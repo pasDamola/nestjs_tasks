@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, OnModuleInit } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateTaskDto } from 'src/tasks/dto/create-task.dto';
 import { TaskRepository } from 'src/tasks/task.repository';
@@ -6,12 +6,16 @@ import { TasksService } from 'src/tasks/tasks.service';
 import { Task } from '../tasks/task.entity';
 
 @Injectable()
-export class BotService {
+export class BotService implements OnModuleInit {
     constructor(
         @InjectRepository(TaskRepository)
         private taskRepository: TaskRepository,
         private tasksService: TasksService,
     ) {  }
+
+    onModuleInit(){
+        this.botMessage();
+    }
 
     botMessage() {        
         const TelegramBot = require('node-telegram-bot-api');
